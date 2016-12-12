@@ -1,10 +1,12 @@
 package org.camunda.bpm.getstarted.service;
 
 import java.io.BufferedReader;
+import java.net.*;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.security.cert.X509Certificate;
 import java.util.Map;
 
@@ -18,7 +20,7 @@ import javax.net.ssl.X509TrustManager;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 
-public class WebServiceCall implements JavaDelegate {
+public class WebServiceCall2 implements JavaDelegate {
 	
 	public void execute(DelegateExecution arg0) throws Exception {
 	
@@ -28,20 +30,35 @@ public class WebServiceCall implements JavaDelegate {
 //		}
 		
 		// Anfrage URL
-		String requestURL ="http://extraktor.next-lvl-service.de/extrakt.php";
+		String parm=String.valueOf(arg0.getVariable("result"));
+		
+	
+		String requestURL ="http://extraktor.next-lvl-service.de/extrakt.php?arg0="+ URLEncoder.encode(parm, "UTF-8");
 		
 		// GET/POST Methodenaufruf URL
 		String result = getStringFromUrl(requestURL);
-		
-		// Request speichern 
-		String save = result;
-		arg0.setVariable("result", save);
+		String update = "false"; 
+		if(result.equals ("null"))
+			{
+			arg0.setVariable("update", update);
+			}
+		else
+		{
+			update="true";
+			arg0.setVariable("update", update);
+			// Request speichern 
+			String save = result;
+			arg0.setVariable("result", save);
+		}
 		
 		// Ausgabe
+		
 		System.out.println();
 		System.out.println(requestURL);
- 		System.out.println("Direktes Result: "+result);
- 		System.out.println("arg0: "+ String.valueOf(arg0.getVariable("result")));
+ 		System.out.println("Direktes Result-2: "+result);
+ 		System.out.println("arg0-2: "+ String.valueOf(arg0.getVariable("result3")));
+ 		System.out.println("Update: "+ update);
+ 		
 
 	}
 	
