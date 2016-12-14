@@ -34,14 +34,14 @@ public class WebServiceCall implements JavaDelegate {
 		String result = getStringFromUrl(requestURL);
 		
 		// Request speichern 
-		String save = result;
-		arg0.setVariable("result", save);
+		arg0.setVariable("result", result);
 		
 		// Ausgabe
 		System.out.println();
+		System.out.println("Prozessname: "+ arg0.getVariable("eingabe"));
 		System.out.println(requestURL);
- 		System.out.println("Direktes Result: "+result);
- 		System.out.println("arg0: "+ String.valueOf(arg0.getVariable("result")));
+		System.out.println("Result Extraction: "+result);
+ 		
 
 	}
 	

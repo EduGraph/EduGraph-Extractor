@@ -20,7 +20,7 @@ import javax.net.ssl.X509TrustManager;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 
-public class WebServiceCall3 implements JavaDelegate {
+public class WebServiceCall4 implements JavaDelegate {
 	
 	public void execute(DelegateExecution arg0) throws Exception {
 	
@@ -31,32 +31,19 @@ public class WebServiceCall3 implements JavaDelegate {
 		
 		// Anfrage URL
 		String parm=String.valueOf(arg0.getVariable("result"));
-		String parm2=String.valueOf(arg0.getVariable("update"));
+		String parm2=String.valueOf(arg0.getVariable("enrich"));
 	
-		String requestURL ="http://extraktor.next-lvl-service.de/enrichment.php?arg0="+ URLEncoder.encode(parm, "UTF-8") + "&enrich="+ URLEncoder.encode(parm2, "UTF-8") ;
+		String requestURL ="http://extraktor.next-lvl-service.de/save.php?arg0="+ URLEncoder.encode(parm, "UTF-8") + "&save="+ URLEncoder.encode(parm2, "UTF-8") ;
 		
 		// GET/POST Methodenaufruf URL + Speichern
 		String result = getStringFromUrl(requestURL);
 	
-		String enrich = "false"; 
-		if(result.equals ("false"))
-			{
-			arg0.setVariable("enrich", "false");
-			arg0.setVariable("result", " ");
-			}
-		else
-		{
-			arg0.setVariable("enrich", "true");
-			// Request speichern 			
-			arg0.setVariable("result", result);
-			enrich="true";
-		}
 		
 		// Ausgabe
 		
 		System.out.println();
- 		System.out.println("Result Enrichment: ");
- 		System.out.println("Enrichment: "+ enrich);
+ 		System.out.println("Result Storing: ");
+ 		System.out.println("Storing: "+ result);
  		//System.out.println("Result: "+requestURL);
 
 

@@ -32,15 +32,15 @@ public class WebServiceCall2 implements JavaDelegate {
 		// Anfrage URL
 		String parm=String.valueOf(arg0.getVariable("result"));
 		
-	
-		String requestURL ="http://extraktor.next-lvl-service.de/extrakt.php?arg0="+ URLEncoder.encode(parm, "UTF-8");
+		String requestURL ="http://extraktor.next-lvl-service.de/analyse.php?arg0="+ URLEncoder.encode(parm, "UTF-8");
 		
 		// GET/POST Methodenaufruf URL
 		String result = getStringFromUrl(requestURL);
 		String update = "false"; 
-		if(result.equals ("null"))
+		if(result.equals ("false"))
 			{
 			arg0.setVariable("update", update);
+			arg0.setVariable("result", " ");
 			}
 		else
 		{
@@ -54,10 +54,9 @@ public class WebServiceCall2 implements JavaDelegate {
 		// Ausgabe
 		
 		System.out.println();
-		System.out.println(requestURL);
- 		System.out.println("Direktes Result-2: "+result);
- 		System.out.println("arg0-2: "+ String.valueOf(arg0.getVariable("result3")));
+ 		System.out.println("Result Analyse: ");
  		System.out.println("Update: "+ update);
+		//System.out.println(requestURL);
  		
 
 	}
