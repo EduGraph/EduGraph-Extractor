@@ -7,6 +7,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <properties>
 <property name="isDeleteUponUndeploy">false</property>
 <property name="isScanForProcessDefinitions">true</property>
+<!-- <property name="jobExecutorActivate" value="true"/>  -->
 </properties>
 </process-archive>
 </process-application>

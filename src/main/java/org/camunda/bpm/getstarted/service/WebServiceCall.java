@@ -15,13 +15,33 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import org.camunda.bpm.engine.ProcessEngine;
+import org.camunda.bpm.engine.ProcessEngines;
+import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.camunda.bpm.engine.test.ProcessEngineRule;
+import org.camunda.bpm.engine.variable.Variables;
+import org.camunda.bpm.engine.variable.value.ObjectValue;
+import org.camunda.bpm.engine.runtime.Execution;
 
 public class WebServiceCall implements JavaDelegate {
 	
-	public void execute(DelegateExecution arg0) throws Exception {
-	
+	public void execute(DelegateExecution execution)  throws Exception {
+		
+//		ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+ 
+//		ProcessEngineRule processEngineRule = new ProcessEngineRule();
+//		RuntimeService runtimeService = processEngine.getRuntimeService();
+		
+//		ProzessData prozess = new ProzessData();
+//		runtimeService.setVariable(execution.getId(), "durationTimer", "2 * * * * ?");
+//	
+//		ObjectValue customerDataValue = Variables.objectValue(arg0)
+//				  .serializationDataFormat(Variables.SerializationDataFormats.JAVA)
+//				  .create();
+
+		//execution.setVariable("durationTimer", "2 * * * * ?");
 
 //		for(Map.Entry<String, Object> entry : arg0.getVariables().entrySet()) {
 //			System.out.println(entry.getKey()+" -> "+entry.getValue());
@@ -34,11 +54,11 @@ public class WebServiceCall implements JavaDelegate {
 		String result = getStringFromUrl(requestURL);
 		
 		// Request speichern 
-		arg0.setVariable("result", result);
+		execution.setVariable("result", result);
 		
 		// Ausgabe
 		System.out.println();
-		System.out.println("Prozessname: "+ arg0.getVariable("eingabe"));
+		System.out.println("Prozessname: "+ execution.getVariable("eingabe"));
 		System.out.println(requestURL);
 		System.out.println("Result Extraction: "+result);
  		
