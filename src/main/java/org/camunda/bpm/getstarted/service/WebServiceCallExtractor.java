@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Date;
 
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngines;
@@ -19,29 +20,28 @@ public class WebServiceCallExtractor implements JavaDelegate {
 		ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
 		RuntimeService runtimeService = processEngine.getRuntimeService();
 		
-		// Anfrage URL
-		String requestURL ="http://extraktor.next-lvl-service.de/extrakt.php";
+		// Webservice URL und Datentyp zum speichern GET/POST Abfrage/Antwort 
+		String requestURL ="http://fbwsemantic.fh-brandenburg.de:9000/projects/extractor/extract.php";
 		String result;
 		
+		// Abfrage ob der Service antwortet, wenn nicht greift das Exception Handling
 		try {
-			
-			// GET/POST Methodenaufruf URL
-			result = getStringFromUrl(requestURL);
-			
-			// Request speichern 
+			result = getStringFromUrl(requestURL);			
+			// Request speichern (Javaebene)
 			execution.setVariable("result", result);
 		}
 		catch (Exception e){
 			result ="error";
-		}		
-		runtimeService.setVariable(execution.getId(), "result", result);
+		}	
+		// Speichern der Antwort des Webservices (processEngine)
+		runtimeService.setVariable(execution.getId(), "extract", result);
 		
-		// Ausgabe
+		// Ausgaben auf der Tomcat-Console 
 		System.out.println();
-		System.out.println("Prozessname: "+ execution.getVariable("eingabe"));
+		System.out.println("Prozessname: Extraktionsprozess");
+		System.out.println(new Date(System.currentTimeMillis()));
 		System.out.println(requestURL);
-		System.out.println("Result Extraction: "+result);
- 		
+		System.out.println("Ergebnis Extraktion: "+result);
 
 	}
 	

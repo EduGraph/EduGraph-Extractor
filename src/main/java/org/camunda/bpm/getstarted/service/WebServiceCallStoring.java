@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
 
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngines;
@@ -20,28 +19,23 @@ public class WebServiceCallStoring implements JavaDelegate {
 		ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
 		RuntimeService runtimeService = processEngine.getRuntimeService();
 		
-		// Anfrage URL
-		String parm=String.valueOf(execution.getVariable("result"));
-	
-		String requestURL ="http://extraktor.next-lvl-service.de/save.php?arg0="+ URLEncoder.encode(parm, "UTF-8");
-		
-		// GET/POST Methodenaufruf URL + Speichern
+		// Webservice URL und Datentyp zum speichern GET/POST Abfrage/Antwort
+		String requestURL ="http://fbwsemantic.fh-brandenburg.de:9000/projects/extractor/save.php";
 		String result; 
-				
+		
+		// Abfrage ob der Service antwortet, wenn nicht greift das Exception Handling
 		try {
-			getStringFromUrl(requestURL);
-			result = "erfolg";
+			result = getStringFromUrl(requestURL);
 		} catch (Exception e) {
 			result ="error";
 		}
-		runtimeService.setVariable(execution.getId(), "result", result);			
+		// Speichern der Antwort des Webservices (processEngine)
+		runtimeService.setVariable(execution.getId(), "store", result);			
 	
 		
-		// Ausgabe
+		// Ausgabe auf der Tomcat-Console 
 		System.out.println();
- 		System.out.println("Result Storing: ");
- 		System.out.println("Storing: "+ result);		
-
+ 		System.out.println("Ergebnis Speicherung: " + result);
 	}
 	
 	// GET/POST Methode
